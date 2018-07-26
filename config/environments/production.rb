@@ -22,6 +22,7 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
+  config.public_file_server.enabled = true
   config.serve_static_files = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
@@ -79,7 +80,6 @@ Rails.application.configure do
 
   #remember to change localhost to actual host
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
   config.paperclip_defaults = {
     storage: :s3,
     s3_protocol: :https,
@@ -88,6 +88,8 @@ Rails.application.configure do
       access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID'),
       secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY'),
       s3_region: ENV.fetch('AWS_REGION'),
-    }
   }
+}
 end
+
+
