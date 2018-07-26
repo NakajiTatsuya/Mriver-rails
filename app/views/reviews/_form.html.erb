@@ -4,22 +4,22 @@
   <div id="rate_stars"></div>
 
   <div class="form-group">
-    <%= f.text_area :description,rows: 3,class: "form-control" %>     
+    <%= f.text_area :description,rows: 3,class: "form-control" %>
   </div>
 
 
   <%= f.hidden_field :listing_id, value: @listing.id %>
-  
+
   <div class="actions">
-    <%= f.submit "このシッターを評価する", class: "btn btn-danger"%>       
+    <%= f.submit "このシッターを評価する", class: "btn btn-danger" %>
   </div>
 
-<% end %> 
+<% end %>
 
 <script type="text/javascript">
-  $("#rate_stars").raty({
-      path: '/assets',
-      scoreName: 'review[rate]',
-      score: 1
+  $('#rate_stars').raty({
+    path: '/assets', // A global locate where the icon will be looked.
+    scoreName: 'review[rate]', // スコアを保存するモデルの隠れフィールド (review行のrateフィールド)
+    score: 1 // Initial rating.
   });
 </script>

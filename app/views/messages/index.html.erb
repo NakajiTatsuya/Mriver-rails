@@ -6,7 +6,7 @@
             <%= image_tag @other.image, class: "img-circle profile-1" %><br>
             <strong><%= @other.name %></strong>
             <br>
-            <%= link_to "Show Profile", @other, class: "btn btn-default btn-wide row-space-2 row-space-top-2" %>
+            <%= link_to "プロフィールを見る", @other, class: "btn btn-default btn-wide row-space-2 row-space-top-2" %>
         </div>
 
         <div class="col-md-9">
@@ -16,11 +16,11 @@
                      Conversation with <%= @other.name %>
                 </div>
                 <div class="panel-body">
+                    <!-- remote: true により,非同期処理として,ajaxを使用。画面のメッセージフォームだけ更新する -->
                     <%= form_for [@conversation, @conversation.messages.new], remote: true do |f| %>
                         <div class="form-group">
-                            <%= f.text_area :body, placeholder: "Write your messages here", class: "form-control" %>
+                            <%= f.text_area :body, placeholder: "メッセージを記入してください", class: "form-control" %>
                         </div>
-
                         <%= f.hidden_field :user_id, value: current_user.id %>
 
                         <div class="actions">
@@ -31,9 +31,11 @@
             </div>
             
             <div id="chat">
-                <%= render @messages %>
+              <!-- ページを開いたときにmessagesテーブルにあるデータをレンダリング -->
+              <%= render @messages %>
+              <!-- コントローラによりcreate.js.erbが実行されると@message(新規作成メッセージ)が追加される -->
             </div>
         </div>
     </div>
-    <%= subscribe_to conversation_messages_path(@conversation)%>
+    <%= subscribe_to conversation_messages_path(@conversation) %>
 </div>

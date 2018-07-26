@@ -6,7 +6,7 @@
       <h2>ログイン</h2>
       
       <hr>
-      <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook),class:"btn btn-facebook" %>
+      <%= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path,class:"btn btn-facebook" %>
       <hr>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>

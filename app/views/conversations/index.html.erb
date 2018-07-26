@@ -5,24 +5,29 @@
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
                     Conversations
-                </div>            
+                </div>
+                <!-- current_userが送ったor受け取ったメッセージを一つ一つ取り出す -->
                 <% @conversations.each do |conversation| %>
+                <!-- Conversationのsender_idがcurrent_userのidと同じなら,相手はrecipient_id。違うなら相手はsender_id -->
                     <% other = conversation.sender == current_user ? conversation.recipient : conversation.sender %>
+                    <!-- このconversationに該当するmessageテーブルにデータが存在するとき -->
                     <% if !conversation.messages.blank? %>
                         <div class="panel-body panel-conversation">
                             <div class="row">
                                 <div class="col-md-2 text-center row-space-1">
-                                    <%= image_tag other.image, class: "img-circle profile-1" %><br>
-                                    <strong><%= other.name %></strong> 
+                                    <%= image_tag other.image, class: "img-circle profile-1" unless other.image.blank? %><br>
+                                    <strong><%= other.name %></strong>
                                 </div>
                                 <%= link_to conversation_messages_path(conversation) do %>
                                     <div class="col-md-8">
+                                      <!-- この会話の最新のbodyフィールドのデータを参照 -->
                                         <%= conversation.messages.last.body %>
                                     </div>
                                 <% end %>
                                 <div class="col-md-2">
+                                  <!-- 作成したmessage_timeメソッドにより, created_at.strftime("%Y年%m月%d日")を実行 -->
                                     <%= conversation.messages.last.message_time %>
-                                </div>    
+                                </div>
                             </div>
                         </div>
                         <hr>

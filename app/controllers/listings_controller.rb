@@ -10,11 +10,11 @@ class ListingsController < ApplicationController
     @photos = @listing.photos
 
     # 今のユーザーがこのリスティングを予約しているか否か
-    @currentUserBooking = Reservation.where("listing_id = ? AND user_id = ?",@listing.id,current_user.id).present? if current_user
-    
+    @currentUserBooking = Reservation.where("listing_id = ? AND user_id = ?", @listing.id,current_user.id).present? if current_user
+
     @reviews = @listing.reviews
     
-    @currentUserReview = @reviews.find_by(user_id:  current_user.id) if current_user
+    @currentUserReview = @reviews.find_by(user_id: current_user.id) if current_user
   end
 
   def new
@@ -76,23 +76,20 @@ class ListingsController < ApplicationController
     render :nothing => true
   end
 
-
-
   private
   def listing_params
-    params.require(:listing).permit(:home_type, :pet_type, :breeding_years, :pet_size, :price_pernight, :address, :listing_title, :listing_content, :active)
+    params.require(:listing).permit(:home_type, :pet_type, :breeding_years, :pet_size, :price_pernight , :address , :listing_title, :listing_content, :active)
   end
 
   def set_listing
-    @listing = Listing.find(params[:id]) 
+    @listing = Listing.find(params[:id])
   end
-  
+
   def access_deny
     if !(current_user == @listing.user)
       redirect_to root_path, notice: "他人の編集ページにはアクセスできません"
     end
   end
-
 
 
 end

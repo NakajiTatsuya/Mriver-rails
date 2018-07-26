@@ -26,9 +26,13 @@
       </div>
 
       <div class="col-md-4 col-xs-6 col-md-offset-1">
+        <!-- greater than or equalの意 price_pernightフィールドで入力値以上のデータをparamsに送信 -->
+        <!-- <input placeholder="Min" class="form-control" type="text" name="q[price_pernight_gteq]" id="q_price_pernight_gteq"> -->
+        <!-- sessionが残っている場合は表示 -->
         <%= f.text_field :price_pernight_gteq, placeholder: "Min",value:session[:price_pernight_gteq],class:"form-control" %>
       </div>
       <div class="col-md-4 col-xs-6">
+        <!-- less than or equalの意 price_pernightフィールドの入力値以下のデータをparamsに送信 -->
         <%= f.text_field :price_pernight_lteq, placeholder: "Max",value:session[:price_pernight_lteq],class:"form-control" %>
       </div>
     </div>
@@ -41,6 +45,7 @@
       </div>
       
       <div class="col-md-3 col-xs-4">
+        <!-- <input type="checkbox" name="q[home_type_eq_any][]" id="q_home_type_eq_any_" value="マンション"> -->
         <%= check_box_tag "q[home_type_eq_any][]", "マンション",session[:Mansion] %> マンション
       </div>
       <div class="col-md-3 col-xs-4">
@@ -67,6 +72,16 @@
       </div>
       <div class="col-md-3 col-xs-6">
         <div class="form-group">
+        <!-- 
+        <select class="form-control" name="q[breeding_years_gteq]" id="q_breeding_years_gteq">
+          <option value="6">6</option><option value="">Select</option>
+          <option value="1">1year</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          </select>
+        -->
           <%= f.select :breeding_years_gteq, [["1year",1], ["2",2], ["3",3], ["4",4], ["5",5], ["6",6]], {:include_blank => "Select",:selected => session[:breeding_years_gteq]}, {class: 'form-control'} %>
         </div>
       </div>
@@ -78,10 +93,9 @@
       <div class="col-md-3">
         <%= f.submit "Re-search", class: "btn btn-danger" %>
       </div>
-    </div>    
+    </div>
   </div>
 <% end %>
-
 
 
 <!-- datepickerのスクリプト -->

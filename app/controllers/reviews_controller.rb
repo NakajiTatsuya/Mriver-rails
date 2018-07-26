@@ -6,16 +6,16 @@ class ReviewsController < ApplicationController
 
   def destroy
     @review = Review.find(params[:id])
-    
+
     listing = @review.listing
-    
+
     @review.destroy
 
     redirect_to listing
   end
 
   private
-    def review_params
-      params.require(:review).permit(:description, :rate, :listing_id)       
-    end
+  def review_params
+    params.require(:review).permit(:description, :rate, :listing_id)
+  end
 end

@@ -12,8 +12,13 @@ class Listing < ActiveRecord::Base
 
   geocoded_by :address
   after_validation :geocode, :if => :address_changed?
-  
+
+  # listingモデルからアクセスできるメソッドを作成
+
+  # reviewsを四捨五入して 少数第一位(4.3など)で返す
+  # モデル.average(カラム名 [, オプション])
   def average_star_rate
-    reviews.count == 0 ? 0 : reviews.average(:rate).round(1)
+    reviews.count == 0 ? 0 : reviews.average(:rate).round(1) 
   end
+  
 end

@@ -1,8 +1,14 @@
-// 先頭に足す _message.html.erb to #chat
-// messages/_message　をrender
-// _message.html.erb内のmessageは@message
+// 新規に作成されたメッセージをチャットリストの先頭に追加し、新規メッセージを入力するテキストフィールドの中身をクリアします。
+
+// prepend _message.html.erb to #chat (@messageは新しく作成したメッセージ)
+// messages/_messageをrender
+// _message.html.erb内のmessageは@messageとして返す フォルダが一緒なのでパスなし
+
 <% publish_to conversation_messages_path(@conversation) do %>
-  $('#chat').prepend("<%= j(render @message)%>");  
+$('#chat').prepend("<%= j(render @message)%>");
 <% end %>
+
 // メッセージの入力欄を空にする
 $('#new_message')[0].reset();
+
+// rackup private_pub.ru -s thin -E production で非同期サーバーを立ち上げる

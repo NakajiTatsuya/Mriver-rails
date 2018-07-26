@@ -46,7 +46,7 @@
             <div class="row">
                 <div class="col-md-3 text-center row-space-2">
                     <%= link_to user_path(@listing.user) do %>
-                        <%= image_tag @listing.user.image,class:"img-circle profile-2" %>
+                        <%= image_tag @listing.user.image ,class:"img-circle profile-2" unless @listing.user.image.blank? %>
                     <% end %>
                     <h5><%= @listing.user.name %></h5>
                 </div>
@@ -83,7 +83,7 @@
                         
                         <div class="panel-body panel-real">         
                             <%= form_for [@listing, @listing.reservations.new], url: new_listing_reservation_path(@listing), html: {method: "get"} do |f| %>       
-                                           
+                             
                                 <!-- これは、予約をするときに、一緒におくる、データです。-->
                                 <%= f.hidden_field :listing_id, value: @listing.id %>
                                 <%= f.hidden_field :price_pernight, value: @listing.price_pernight %>
@@ -97,9 +97,9 @@
 
                                     <div class="col-md-6">
                                         <label>Check Out</label>
-                                        <%= f.text_field :end_date, :class => 'form-control', placeholder: '終了',disabled:true %>
+                                        <%= f.text_field :end_date, :class => 'form-control', placeholder: '終了', disabled:true %>
                                     </div>
-                                </div>    
+                                </div>
 
                                 <!-- シッター料金 -->
                                 <div id="sitter-price" class="row row-space-2 hidden">
@@ -139,7 +139,7 @@
                                 </div>        
 
                                 <div class="actions text-center">
-                                    <%= f.submit "この日程で予約する", class: "btn btn-danger btn-wide",disabled:true %>
+                                    <%= f.submit "この日程で予約する", class: "btn btn-danger btn-wide" %>
                                 </div>
                             <% end %>
                         </div>
@@ -165,13 +165,13 @@
     </div>  
 
 
-    <!-- レビュー     -->
+    <!-- レビュー    -->
     <div class="row row-space-4">
       <div class="col-md-9">
-        <h3 class="row-space-3">レビュー<%= @reviews.count %>件</h3>
-        <div id="average_star_rate"></div>
-          <%= render 'reviews/form' if @currentUserBooking && !@currentUserReview %>
-          <%= render 'reviews/list' %>
+          <h3 class="row-space-3">レビュー<%= @reviews.count %>件</h3>
+          <div id="average-star-rate"></div>
+            <%= render 'reviews/form' if @currentUserBooking && !@currenUserReview %>
+            <%= render 'reviews/list' %>
       </div>
 
       <div class="col-md-3">
@@ -182,51 +182,51 @@
     <!-- google map    -->
     <div class="row">
         <div class="col-md-9">
-            <h3 class="row-space-3">アクセス</h3>
+            <h3>アクセス</h3>
             <div id="map"></div>
         </div>
 
         <div class="col-md-3">
-        
+
         </div>
     </div>
     <style>
-        #map{
-            width: 100%;
-            height: 350px;
-        }
-        
+      #map {
+        width: 100%;
+        height: 350px;
+      }
+
     </style>
 
     <!-- 近くのリスティング    -->
     <div class="row">
         <div class="col-md-9">
             <h3 class="row-space-3">近くのリスティング</h3>
-            
-            <% for listing in @listing.nearbys(10) %>
-                <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading panel-listing text-center" style="padding: 0;">
-                            <%= link_to(listing) do %>
-                                <%= image_tag listing.photos[0].image.url(:medium)  if listing.photos.length > 0 %>
-                            <% end %>
-                        </div>
 
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-8 col-xs-8">
-                                    <%= link_to listing.listing_title, listing %><br>
-                                </div>
-                                <div class="col-md-3 col-xs-3">
-                                    <%= image_tag listing.user.image,class:"img-circle profile-1" %>
-                                </div>
-                                <div class="price-card">
-                                    <%= listing.price_pernight %> 円     
-                                </div>
+            <% for listing in @listing.nearbys(10) %>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading panel-listing text-center" style="padding: 0;">
+                        <%= link_to(listing) do %>
+                            <%= image_tag listing.photos[0].image.url(:medium)  if listing.photos.length > 0 %>
+                        <% end %>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-9 col-xs-9">
+                                <%= link_to listing.listing_title, listing %><br>
+                            </div>
+                            <div class="col-md-3 col-xs-3">
+                                <%= image_tag listing.user.image, class:"img-circle profile-1" unless listing.user.image.blank? %>
+                            </div>
+                            <div class="price-card">
+                                <%= listing.price_pernight %> 円
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             <% end %>
 
         </div>
@@ -235,52 +235,42 @@
         
         </div>
     </div>
-
 </div>
 
 <script>
-  $('#average_star_rate').raty({
-    path: '/assets',
-    readOnly: true,
-    score: <%= @listing.average_star_rate %>
-  });
-</script>
 
-<script>
-function initMap() {
-  
-  // Create the map.
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 14,
-    center: {lat: <%=@listing.latitude %>, lng: <%=@listing.longitude %>},
-    mapTypeId: google.maps.MapTypeId.TERRAIN
-  });
+  function initMap() {
+    // Create the map.
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 14,
+      center: {lat: <%= @listing.latitude %>, lng: <%= @listing.longitude %>},
+      mapTypeId: 'terrain'
+    });
 
-
-  // Add the circle for this city to the map.
-  var cityCircle = new google.maps.Circle({
-    strokeColor: '#FF0000',
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillColor: '#FF0000',
-    fillOpacity: 0.35,
-    map: map,
-    center: {lat: <%=@listing.latitude %>, lng: <%=@listing.longitude %>},
-    radius: 500
-  });
-  
-}
-
+    // Construct the circle for each value in citymap.
+    // Note: We scale the area of the circle based on the population.
+      // Add the circle for this city to the map.
+      var cityCircle = new google.maps.Circle({
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35,
+        map: map,
+        center: {lat: <%= @listing.latitude %>, lng: <%= @listing.longitude %>},
+        radius: 500
+      });
+      }
 </script>
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1BoiSo2jL950_AuFzV-f9ETgKn0uQl2I&signed_in=true&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpiBevgO1ukttr7L8wNeBW4lIqGLaogBA&callback=initMap">
 </script>
 
 <script>
 $(function() {
 
-  //日付について、それが選択不可能なものかを決める関数
-  // inArray()について:dmyがdisabledDates配列になければ-1を返す
+  // dateの返り値の一ヶ月後がdisabledDates配列に存在するときtrueを返す
+  // 例 date = 1/1/2018  dmy = 1-2-2018
   function disable(date){
     dmy = date.getDate() + "-" + (date.getMonth()+1) + "-" + date.getFullYear();
     return [$.inArray(dmy,disabledDates) == -1]; //trueを返す
@@ -432,4 +422,23 @@ $(function() {
   });
 });
 </script>
+
+<script>
+  $('#average_star_rate').raty({
+    path: '/assets',  // A global locate where the icon will be looked.
+    readOnly: true,  // Turns the rating read-only.
+    score: <%= @listing.average_star_rate %> // initial score
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+
 
