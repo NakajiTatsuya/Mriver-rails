@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -36,9 +35,8 @@ ActiveRecord::Schema.define(version: 20160725092520) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "not_checked"
+    t.index ["user_id"], name: "index_listings_on_user_id"
   end
-
-  add_index "listings", ["user_id"], name: "index_listings_on_user_id"
 
   create_table "messages", force: :cascade do |t|
     t.text     "body"
@@ -46,10 +44,9 @@ ActiveRecord::Schema.define(version: 20160725092520) do
     t.integer  "user_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
-
-  add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id"
-  add_index "messages", ["user_id"], name: "index_messages_on_user_id"
 
   create_table "photos", force: :cascade do |t|
     t.integer  "listing_id"
@@ -59,9 +56,8 @@ ActiveRecord::Schema.define(version: 20160725092520) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.index ["listing_id"], name: "index_photos_on_listing_id"
   end
-
-  add_index "photos", ["listing_id"], name: "index_photos_on_listing_id"
 
   create_table "reservations", force: :cascade do |t|
     t.integer  "user_id"
@@ -73,10 +69,9 @@ ActiveRecord::Schema.define(version: 20160725092520) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.boolean  "self_booking"
+    t.index ["listing_id"], name: "index_reservations_on_listing_id"
+    t.index ["user_id"], name: "index_reservations_on_user_id"
   end
-
-  add_index "reservations", ["listing_id"], name: "index_reservations_on_listing_id"
-  add_index "reservations", ["user_id"], name: "index_reservations_on_user_id"
 
   create_table "reviews", force: :cascade do |t|
     t.text     "description"
@@ -85,10 +80,9 @@ ActiveRecord::Schema.define(version: 20160725092520) do
     t.integer  "user_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["listing_id"], name: "index_reviews_on_listing_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
-
-  add_index "reviews", ["listing_id"], name: "index_reviews_on_listing_id"
-  add_index "reviews", ["user_id"], name: "index_reviews_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -118,9 +112,8 @@ ActiveRecord::Schema.define(version: 20160725092520) do
     t.string   "stripe_user_id"
     t.string   "currency"
     t.string   "stripe_account_type"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end
