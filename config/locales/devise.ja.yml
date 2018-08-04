@@ -1,0 +1,62 @@
+ja:
+  errors:
+    messages:
+      not_found: "は見つかりませんでした"
+      already_confirmed: "は既に登録済みです"
+      not_locked: "は凍結されていません"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      already_confirmed: "すでに確認されています。ログインしてください"
+      expired: "すでに期限が切れています。新しいリクエストを要求してください"
+      not_saved:
+        one: "1このエラーにより、この%{resource}の保存ができません:"
+        other: "%{count}個のエラーがこの%{resource}の保存を妨げています:"
+
+  devise:
+    failure:
+      already_authenticated: "すでにログインしています"
+      invalid: "不適切な%{authentication_keys}またはパスワードです"
+      last_attempt: "You have one more attempt before your account is locked."
+      not_found_in_database: "不適切な%{authentication_keys}またはパスワードです"
+      unauthenticated: '先にアカウント作成またはログインをしてください'
+      unconfirmed: '本登録を行ってください'
+      locked: 'あなたのアカウントは凍結されています'
+      timeout: 'セッションがタイムアウトしました。もう一度ログインしてください'
+      inactive: 'アカウントがアクティベートされていません'
+    sessions:
+      signed_in: 'ログインしました'
+      signed_out: 'ログアウトしました'
+      already_signed_out: "ログアウトしました"
+    passwords:
+      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+      send_instructions: 'パスワードのリセット方法を数分以内にメールでご連絡します'
+      updated: 'パスワードを変更しました。'
+    confirmations:
+      send_instructions: '登録方法を数分以内にメールでご連絡します。'
+      confirmed: 'アカウントを登録しました。'
+      send_paranoid_instructions: "あなたのメールアドレスが存在する場合,メールアドレスの確認方法を数分以内にメールでご連絡します"
+    registrations:
+      destroyed: 'アカウントを削除しました。またのご利用をお待ちしております。'
+      signed_up: 'アカウント登録を受け付けました。確認のメールをお送りします。'
+      signed_up_but_inactive: "ログインはまだ有効状態です"
+      signed_up_but_locked: "ログインに成功しましたが、アカウントが凍結されています"
+      signed_up_but_unconfirmed: "あなたのメールアドレスに確認用のメッセージが送信されました。アカウントを有効にするためにリンクに従ってください"
+      update_needs_confirmation: "アカウントのアップデートとが完了しましたが,メールアドレスが見つかりません。メールアドレスを確認して、確認用リンクに従ってください"
+      updated: 'アカウントを更新しました。'
+    unlocks:
+      send_paranoid_instructions: "あなたのアカウントが存在する場合,アカウント凍結解除の方法を数分以内にメールでご連絡します"
+      send_instructions: 'アカウントの凍結解除方法を数分以内にメールでご連絡します。'
+      unlocked: 'アカウントを凍結解除しました'
+    mailer:
+      confirmation_instructions:
+        subject: 'アカウントの登録方法'
+      reset_password_instructions:
+        subject: 'パスワードの再設定'
+      unlock_instructions:
+        subject: 'アカウントの凍結解除'
+      password_change:
+        subject: "パスワードの変更"
+    omniauth_callbacks:
+      failure: "\"%{reason}\"と言う理由であなたを%{kind}から認証できませんでした"
+      success: "%{kind}アカウントの認証に成功しました"
+
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
