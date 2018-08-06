@@ -54,7 +54,7 @@ class ReservationsController < ApplicationController
         end
       end
       
-      redirect_to :back, notice: "更新しました。" 
+      redirect_to :back, notice: "更新しました。"
 
     else   #他人の部屋の予約作成とStripeのpayアクションの実行
       # Find the user to pay.
@@ -99,6 +99,8 @@ class ReservationsController < ApplicationController
 
   def setdate
     # ajaxで送られてきたlisting_idを元にそのリスティングの予約をjsonで返す
+    # Date.today 設定されたタイムゾーンの現在の日にちが取得できる
+    # このリストに関して、今日以降の予約をjsonで送る
     listing = Listing.find(params[:listing_id])
     today = Date.today
     reservations = listing.reservations.where("start_date >= ? OR end_date >= ?",today,today)

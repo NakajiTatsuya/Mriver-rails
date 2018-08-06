@@ -40,35 +40,40 @@
     <!-- 家の形態 -->
     <div class="row filter-section row-space-top-4 row-space-4">
 
-      <div class="col-md-3 text-center">
+      <div class="col-md-4 text-center">
         <h4>家のタイプ</h4>
       </div>
       
-      <div class="col-md-3 col-xs-4">
+      <!-- 追加したよ!! -->
+      <div class="col-md-2 col-xs-3">
+        <%= check_box_tag "q[home_type_eq_any][]", "公園・河原",session[:Park] %> 公園・河原
+      </div>
+      <div class="col-md-2 col-xs-3">
         <!-- <input type="checkbox" name="q[home_type_eq_any][]" id="q_home_type_eq_any_" value="マンション"> -->
         <%= check_box_tag "q[home_type_eq_any][]", "マンション",session[:Mansion] %> マンション
       </div>
-      <div class="col-md-3 col-xs-4">
+      <div class="col-md-2 col-xs-3">
         <%= check_box_tag "q[home_type_eq_any][]", "一軒家",session[:House] %> 一軒家
       </div>
-      <div class="col-md-3 col-xs-4">
+      <div class="col-md-2 col-xs-3">
         <%= check_box_tag "q[home_type_eq_any][]", "アパート",session[:Apartment]%> アパート
       </div>
     </div>
     
-    <!-- ペットタイプ -->
+    <!-- ペットタイプから楽器の種類に変更 -->
     <div class="row filter-section">
       <div class="col-md-3 col-xs-6 text-center">
-        <h4>ペットのタイプ</h4>
+        <h4>楽器の種類</h4>
       </div>
       <div class="col-md-3 col-xs-6">
         <div class="form-group">
-          <%= f.select :pet_type_eq, [["犬","犬"], ["猫","猫"], ["鳥類","鳥類"], ["爬虫類","爬虫類"], ["魚類","魚類"], ["両生類","両生類"], ["その他","その他"]], { :include_blank => "Select",:selected => session[:pet_type_eq]},{class: "form-control"} %>
+          <%= f.select :pet_type_eq, [["ピアノ","ピアノ"], ["アコースティックギター","アコースティックギター"], ["ドラム","ドラム"], ["エレキギター","エレキギター"], ["サックス","サックス"], ["ヴォーカル","ヴォーカル"], ["その他","その他"]], { :include_blank => "Select",:selected => session[:pet_type_eq]},{class: "form-control"} %>
         </div>
       </div>
 
       <div class="col-md-2 col-xs-6 text-center">
-        <h4>飼育歴</h4>
+        <!-- 飼育歴から変更 -->
+        <h4>ホストの楽器歴</h4>
       </div>
       <div class="col-md-3 col-xs-6">
         <div class="form-group">
@@ -104,7 +109,7 @@
     $("#start_date").datepicker({
       dateFormat: 'dd-mm-yy',
       minDate: 0,
-      maxDate: '3m',
+      maxDate: '3m', // 3ヶ月後までカレンダー表示
       onSelect: function(selected) {
         $('#end_date').datepicker("option", "minDate", selected);
         $('#end_date').attr('disabled', false);

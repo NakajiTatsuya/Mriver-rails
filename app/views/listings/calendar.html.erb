@@ -19,7 +19,8 @@
         <%= form_for([@listing, @listing.reservations.new]) do |f| %>
           <div class="row row-space-top-4">
             <div class="col-md-8 col-md-offset-2 calendar">
-              <label>預かりができない日を指定</label>
+              <label>レクチャーが開けない日を指定</label>
+              <!-- カレンダーがループ的に表示 -->
               <div id="datepicker"></div>
             </div>
           </div>
@@ -76,54 +77,65 @@ function addOrRemoveDate(date) {
 // カレンダーの選択可能日と不可能日を決める関数
 function SelectMultipleDates(date){
   //inArray(value,array) 第一引数に渡した値が配列中にあれば、そのインデックスを返します。
+  // thisには現在処理されている要素 ここでは"#datepicker"のこと
+  // $("#datepicker").datepickerのオプションのdateFormatプロパティの値 "d-m-yy" を引用
   var gotDateIndex = $.inArray($.datepicker.formatDate($(this).datepicker('option', 'dateFormat'), date), selectedDates);
   var disabledDateIndex = $.inArray($.datepicker.formatDate($(this).datepicker('option', 'dateFormat'), date), disabledDates);
 
   if (gotDateIndex >= 0) {
+    // 自分で予約した日付けに'class-holiday'というクラスを付与する
     return [true,'class-holiday'];
   }else if(disabledDateIndex >= 0){
+    // 他人が予約した日付けの処理をオフにする(クリック後の処理をできなくする)
     return [false,''];
   }else{
+    // クリック後の処理をオンにする
     return [true, ""];
   }
 }
 
-// メインの処理　
+// メインの処理　reservations#setdateで処理される json型のreservationsオブジェクトが返される(このリストの今日1日だけ予約されたデータたち)
 $(function () {
+   // GETでJSONデータを取得
   $.ajax({
     url: '/setdate',
     // this data is data for sending to url
     data: {'listing_id': <%= @listing.id %>},
     dataType: 'json',
-    // callback argument: data is the response data
+    // コールバック関数で結果データを処理 引数dataにはset_dateアクションによるreservationsオブジェクトがはいる
+    // reservationsオブジェクトは、このリストに関する、今日以降の予約一覧
     success: function(data){
    
       $.each(data,function(arrID,arrValue){
+        console.log(data.length + "個の予約リストがajaxで返されました");
         //自分で予約した日付"selectedDates[]"と他人が予約した日付"disabledDates[]"をわけてpushしなきゃいけない
+        // 予約で依頼する日数分ループ
+        // new Date(日付)関数により, 2018-08-14 00:00:00(UCT) => Wed Aug 15 2018 09:00:00 GMT+0900 (日本標準時(ローカルタイムゾーン))
         for(var d = new Date(arrValue.start_date); d <= new Date(arrValue.end_date); d.setDate(d.getDate() + 1 )){
-
           // 自分で予約した場合の日付
           if(arrValue.user_id == <%= current_user.id %>){
+            // d Tue Aug 14 2018 09:00:00 GMT+0900 (日本標準時) を 14-8-2018 みたいな形式の文字列で出力してselectedDates配列に入れる
             selectedDates.push($.datepicker.formatDate('d-m-yy',d));
             $('#selectedDates').val(selectedDates);
           }else{
+            // 他人が予約してくださった予約データ
             disabledDates.push($.datepicker.formatDate('d-m-yy',d));
-          }            
-        }       
+          }
+        }
       });
 
       $("#datepicker").datepicker({
           dateFormat: "d-m-yy",
-          minDate: 0, // Unix timestamp
-          beforeShowDay:SelectMultipleDates,
+          minDate: 0, // 0日前(今日)から選択可能 maxDateは指定日数後まで選択可能
+          beforeShowDay:SelectMultipleDates, // カレンダーが表示される前にその月の日数回実行 引数として表示する日付けを持つ
           onSelect: function(dateText, inst){
               addOrRemoveDate(dateText);
               $('#btn-book').attr('disabled', false);
               $('#selectedDates').val(selectedDates);
               //ruby controller 内で　, で区切って配列化
-              console.log("セレクト");
+              console.log("このリストの自分自身の予約");
               console.log(selectedDates);
-              console.log("ディスエイブル");
+              console.log("このリストの他人が申し込んだ予約");
               console.log(disabledDates);
           }
       });

@@ -8,19 +8,19 @@
       <%= image_tag @listing.user.image,class:"img-circle profile-1 row-space-top-3" %>
       <div class="caption">
         <h4 class="text-center row-space-4">ホスト名: <%= @listing.user.name %></h4>
-        <h4 class="text-center row-space-4">リスティングタイトル:<%= @listing.listing_title %></h4>
+        <h4 class="text-center row-space-4">リスティングタイトル: <%= @listing.listing_title %></h4>
 
         <h4 class="text-center row-space-4">合計金額:<%= @total_price %>円</h4>
         <div class="row text-center">
           <div class="col-md-5 col-sm-5 col-xs-5">
-            <p>チェックイン</p>
+            <p>開始日</p>
             <p><%= @start_date %></p>
           </div>
           <div class="col-md-2 col-sm-2 col-xs-2 row-space-top-1">
             <i class="fa fa-chevron-right fa-2x" aria-hidden="true"></i>
           </div>
           <div class="col-md-5 col-sm-5 col-xs-5">
-            <p>チェックアウト</p>
+            <p>終了日</p>
             <p><%= @end_date %></p>
           </div>
         </div>

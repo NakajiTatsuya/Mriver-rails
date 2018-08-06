@@ -5,6 +5,7 @@ class PagesController < ApplicationController
 
   def search
     # テキストフィールドのパラメータを送信している
+    # オートコンプリートで緯度経度が取得できるとき,その値を使ってgeolocation配列を作る
     if params[:search].present?
 
       session[:address] = params[:search]
@@ -16,6 +17,7 @@ class PagesController < ApplicationController
         geolocation = [@latitude,@longitude]
 
       else
+        # オートコンプリートが働かないとき、パラメータを使ってGeocoder.coordinatesメソッドで座標取得
         # Geocoder.coordinates("パリ")みたいにして, 場所の2次元座標を計測する
         geolocation = Geocoder.coordinates(params[:search])
         # geolocation => [122.1311, 134.3231] みたいに配列で返される!!
@@ -60,6 +62,7 @@ class PagesController < ApplicationController
       # 一軒家,マンション,アパートアパートに該当するものをそれぞれtrue-falseで判定
       if params[:q][:home_type_eq_any].present?
         session[:home_type_eq_any] = params[:q][:home_type_eq_any]
+        session[:Park] = session[:home_type_eq_any].include?("公園・河原")
         session[:House] = session[:home_type_eq_any].include?("一軒家")
         session[:Mansion] = session[:home_type_eq_any].include?("マンション")
         session[:Apartment] = session[:home_type_eq_any].include?("アパート")
@@ -91,7 +94,7 @@ class PagesController < ApplicationController
     @search = @listings.ransack(session[:q])
     @result = @search.result(distinct: true)
 
-    #リスティングデータを配列にしてまとめる 
+    #リスティングデータを配列にしてまとめる
     @arrlistings = @result.to_a
 
     # start_date end_dateの間に予約がないことを確認.あれば削除

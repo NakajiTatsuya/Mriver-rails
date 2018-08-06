@@ -340,7 +340,7 @@ span.listing-title {
 
 .class-holiday > .ui-state-default {
     background: #337ab7 !important;
-    color: #fff !important;
+    color: #fff !important; // 文字白
 }
 
 .calendar .ui-datepicker {
@@ -367,7 +367,7 @@ li.listing-checked:before{
   color: #00d1c1;
 }
 
-// vertical-navbar notcheckedmark
+// vertical-navbar notcheckedmark +アイコン
 li.listing-notchecked:before{
   content: "\f067";
   font-family: FontAwesome;
