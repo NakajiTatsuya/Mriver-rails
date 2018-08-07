@@ -67,7 +67,7 @@
       </div>
       <div class="col-md-3 col-xs-6">
         <div class="form-group">
-          <%= f.select :pet_type_eq, [["ピアノ","ピアノ"], ["アコースティックギター","アコースティックギター"], ["ドラム","ドラム"], ["エレキギター","エレキギター"], ["サックス","サックス"], ["ヴォーカル","ヴォーカル"], ["その他","その他"]], { :include_blank => "Select",:selected => session[:pet_type_eq]},{class: "form-control"} %>
+          <%= f.select :instrument_type_eq, [["ピアノ","ピアノ"], ["アコースティックギター","アコースティックギター"], ["ドラム","ドラム"], ["エレキギター","エレキギター"], ["サックス","サックス"], ["ヴォーカル","ヴォーカル"], ["その他","その他"]], { :include_blank => "Select",:selected => session[:instrument_type_eq]},{class: "form-control"} %>
         </div>
       </div>
 
@@ -87,7 +87,7 @@
           <option value="5">5</option>
           </select>
         -->
-          <%= f.select :breeding_years_gteq, [["1year",1], ["2",2], ["3",3], ["4",4], ["5",5], ["6",6]], {:include_blank => "Select",:selected => session[:breeding_years_gteq]}, {class: 'form-control'} %>
+          <%= f.select :instrument_years_gteq, [["1year",1], ["2",2], ["3",3], ["4",4], ["5",5], ["6",6]], {:include_blank => "Select",:selected => session[:instrument_years_gteq]}, {class: 'form-control'} %>
         </div>
       </div>
   

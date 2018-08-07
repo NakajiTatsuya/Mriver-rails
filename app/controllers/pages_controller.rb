@@ -73,22 +73,22 @@ class PagesController < ApplicationController
         session[:Apartment] = false
       end
 
-      if params[:q][:pet_type_eq].present?
-        session[:pet_type_eq] = params[:q][:pet_type_eq]
+      if params[:q][:instrument_type_eq].present?
+        session[:instrument_type_eq] = params[:q][:instrument_type_eq]
       else
-        session[:pet_type_eq] = nil
+        session[:instrument_type_eq] = nil
       end
 
-      if params[:q][:breeding_years_gteq].present?
-        session[:breeding_years_gteq] = params[:q][:breeding_years_gteq]
+      if params[:q][:instrument_years_gteq].present?
+        session[:instrument_years_gteq] = params[:q][:instrument_years_gteq]
       else
-        session[:breeding_years_gteq] = nil
+        session[:instrument_years_gteq] = nil
       end
 
     end
 
     # Q条件をまとめたものをセッションQに入れる [gteq 以上 lteq 以下 ]
-    session[:q] = {"price_pernight_gteq"=>session[:price_pernight_gteq], "price_pernight_lteq"=>session[:price_pernight_lteq],  "home_type_eq_any"=>session[:home_type_eq_any], "pet_type_eq"=>session[:pet_type_eq], "breeding_years_gteq"=>session[:breeding_years_gteq]}
+    session[:q] = {"price_pernight_gteq"=>session[:price_pernight_gteq], "price_pernight_lteq"=>session[:price_pernight_lteq],  "home_type_eq_any"=>session[:home_type_eq_any], "instrument_type_eq"=>session[:instrument_type_eq], "instrument_years_gteq"=>session[:instrument_years_gteq]}
 
     # ransack検索
     @search = @listings.ransack(session[:q])
